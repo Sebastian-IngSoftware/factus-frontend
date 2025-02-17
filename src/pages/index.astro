@@ -1,12 +1,28 @@
 ---
 import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
+import { db, Users , RefreshTokens} from 'astro:db';
 import "../styles/global.css";
+
+const users = await db.select().from(Users);
+const refreshTokens = await db.select().from(RefreshTokens);
 
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
 // Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+	{
+		users.map((user) => (
+			<article>
+				<h2>{user.name}</h2>
+			</article>
+		))		
+	}
+	{
+		refreshTokens.map((refreshToken) => (
+			<article>
+				<h2>{refreshToken.user_id}</h2>
+			</article>
+		))
+	}
+
